@@ -34,6 +34,7 @@ export default function AddTextWatermark() {
     if (!image || !canvasRef.current) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     const img = new window.Image();
     img.src = image;
     img.onload = () => {
@@ -82,10 +83,10 @@ export default function AddTextWatermark() {
                 />
                  <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" style={{backgroundColor: color}} className="w-12" />
+                      <Button variant="outline" style={{backgroundColor: color}} className="w-12 border-2" aria-label="Pick color" />
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
-                       <input type="color" value={color} onChange={(e) => setColor(e.target.value)} className="w-full h-10" />
+                       <input type="color" value={color} onChange={(e) => setColor(e.target.value)} className="w-full h-10 cursor-pointer" />
                     </PopoverContent>
                   </Popover>
               </div>

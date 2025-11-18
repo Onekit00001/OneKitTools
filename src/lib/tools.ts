@@ -2,7 +2,7 @@ import type { Tool } from "@/lib/definitions";
 import { slugify } from "./utils";
 
 export const toolComponentMap = {
-  ImageCompressor: () => import('@/components/tools/coming-soon'),
+  ImageCompressor: () => import('@/components/tools/image-compressor'),
   ImageResizer: () => import('@/components/tools/image-resizer'),
   ImageConverter: () => import('@/components/tools/image-converter'),
   AddTextWatermark: () => import('@/components/tools/add-text-watermark'),
@@ -52,9 +52,9 @@ export const toolComponentMap = {
 
 const allTools: Omit<Tool, 'slug' | 'component'>[] = [
   // Image Tools
-  { name: 'Image Compressor', description: 'Reduce image file size without losing quality.', icon: 'Scissors', category: 'Image' },
-  { name: 'Image Resizer', description: 'Resize images to your desired dimensions.', icon: 'ImageIcon', category: 'Image' },
-  { name: 'Image Converter', description: 'Convert images between JPG, PNG, and WEBP.', icon: 'FlipHorizontal', category: 'Image' },
+  { name: 'Image Compressor', description: 'Reduce image file size without losing quality.', icon: 'Minimize', category: 'Image' },
+  { name: 'Image Resizer', description: 'Resize images to your desired dimensions.', icon: 'Crop', category: 'Image' },
+  { name: 'Image Converter', description: 'Convert images between JPG, PNG, WEBP, and GIF.', icon: 'FileImage', category: 'Image' },
   { name: 'Add Text/Watermark', description: 'Add a text watermark to your images.', icon: 'Type', category: 'Image' },
   { name: 'Flip/Rotate Image', description: 'Flip and rotate images with simple controls.', icon: 'RotateCw', category: 'Image' },
 
@@ -67,7 +67,7 @@ const allTools: Omit<Tool, 'slug' | 'component'>[] = [
   { name: 'Percentage Calculator', description: 'Quickly perform various percentage calculations.', icon: 'Percent', category: 'Calculator' },
   { name: 'Currency Converter', description: 'Convert currencies with live exchange rates.', icon: 'Globe', category: 'Calculator' },
   { name: 'GST/Tax Calculator', description: 'Calculate Goods and Services Tax.', icon: 'Receipt', category: 'Calculator' },
-  { name: 'Tip Calculator', description: 'Calculate tips and split bills easily.', icon: 'Wrench', category: 'Calculator' },
+  { name: 'Tip Calculator', description: 'Calculate tips and split bills easily.', icon: 'HandCoins', category: 'Calculator' },
   { name: 'Date & Time Calculator', description: 'Calculate duration between two dates.', icon: 'Clock', category: 'Calculator' },
   { name: 'Time Duration Calculator', description: 'Add or subtract time durations.', icon: 'Timer', category: 'Calculator' },
   { name: 'Discount Calculator', description: 'Calculate final price after a discount.', icon: 'Tag', category: 'Calculator' },
@@ -77,8 +77,8 @@ const allTools: Omit<Tool, 'slug' | 'component'>[] = [
   { name: 'Word & Character Counter', description: 'Count words, characters, sentences, and paragraphs.', icon: 'FileText', category: 'Text' },
   { name: 'Case Converter', description: 'Convert text to various cases (uppercase, lowercase, etc.).', icon: 'CaseSensitive', category: 'Text' },
   { name: 'Remove Extra Spaces', description: 'Clean up text by removing extra spaces and lines.', icon: 'Eraser', category: 'Text' },
-  { name: 'Remove Duplicate Lines', description: 'Delete duplicate lines from a list.', icon: 'ListOrdered', category: 'Text' },
-  { name: 'Text to Slug', description: 'Create a URL-friendly slug from any text.', icon: 'Link2', category: 'Text' },
+  { name: 'Remove Duplicate Lines', description: 'Delete duplicate lines from a list.', icon: 'ListX', category: 'Text' },
+  { name: 'Text to Slug', description: 'Create a URL-friendly slug from any text.', icon: 'Link', category: 'Text' },
   { name: 'List Sorter', description: 'Sort lists alphabetically, numerically, or randomly.', icon: 'SortAsc', category: 'Text' },
   { name: 'Morse Code Translator', description: 'Translate text to Morse code and back.', icon: 'MessageCircle', category: 'Text' },
   { name: 'Binary ↔ Text Converter', description: 'Convert between binary code and plain text.', icon: 'Binary', category: 'Text' },
