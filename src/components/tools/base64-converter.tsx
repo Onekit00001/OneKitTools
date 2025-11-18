@@ -10,51 +10,66 @@ import { ArrowRightLeft } from 'lucide-react';
 export default function Base64Converter() {
   const [decoded, setDecoded] = useState('Hello World!');
   const [encoded, setEncoded] = useState('SGVsbG8gV29ybGQh');
+  const [lastEdited, setLastEdited] = useState<'decoded' | 'encoded'>('decoded');
   const { toast } = useToast();
 
-  const handleEncode = () => {
+  const handleDecodedChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newDecoded = e.target.value;
+    setDecoded(newDecoded);
+    setLastEdited('decoded');
     try {
-      // Use Buffer for robust UTF-8 handling, works in browsers
-      const encodedText = Buffer.from(decoded, 'utf8').toString('base64');
+      const encodedText = Buffer.from(newDecoded, 'utf8').toString('base64');
       setEncoded(encodedText);
     } catch (e) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Could not encode text.' });
+      // Ignore encoding errors while typing
     }
   };
 
-  const handleDecode = () => {
+  const handleEncodedChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newEncoded = e.target.value;
+    setEncoded(newEncoded);
+    setLastEdited('encoded');
     try {
-      // Use Buffer for robust UTF-8 handling
-      const decodedText = Buffer.from(encoded, 'base64').toString('utf8');
+      const decodedText = Buffer.from(newEncoded, 'base64').toString('utf8');
       setDecoded(decodedText);
     } catch (e) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Invalid Base64 string.' });
+      // Ignore decoding errors for invalid base64 while typing
     }
   };
 
+  const swap = () => {
+    setDecoded(encoded);
+    setEncoded(decoded);
+  }
+
   return (
-    <div className="grid md:grid-cols-2 gap-6 items-start">
+    <div className="grid md:grid-cols-[1fr_auto_1fr] gap-4 items-center">
       <div className="space-y-2">
         <Label htmlFor="decoded-input">Decoded (UTF-8)</Label>
         <Textarea
           id="decoded-input"
           value={decoded}
-          onChange={(e) => setDecoded(e.target.value)}
+          onChange={handleDecodedChange}
           placeholder="Type or paste your text here"
           className="h-48"
         />
-        <Button onClick={handleEncode} className="w-full">Encode to Base64 &darr;</Button>
       </div>
+
+       <div className="flex justify-center">
+        <Button variant="ghost" size="icon" onClick={swap}>
+          <ArrowRightLeft />
+        </Button>
+      </div>
+
       <div className="space-y-2">
         <Label htmlFor="encoded-input">Encoded (Base64)</Label>
         <Textarea
           id="encoded-input"
           value={encoded}
-          onChange={(e) => setEncoded(e.target.value)}
+          onChange={handleEncodedChange}
           placeholder="SGVsbG8gV29ybGQ="
           className="h-48 font-mono"
         />
-        <Button onClick={handleDecode} className="w-full">Decode from Base64 &uarr;</Button>
       </div>
     </div>
   );

@@ -5,53 +5,66 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { ArrowRightLeft } from 'lucide-react';
 
 export default function UrlEncoder() {
   const [decoded, setDecoded] = useState('https://example.com/?q=hello world&price=€25');
   const [encoded, setEncoded] = useState('https%3A%2F%2Fexample.com%2F%3Fq%3Dhello%20world%26price%3D%E2%82%AC25');
   const { toast } = useToast();
 
-  const handleEncode = () => {
+  const handleDecodedChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newDecoded = e.target.value;
+    setDecoded(newDecoded);
     try {
-      setEncoded(encodeURIComponent(decoded));
-      toast({ title: 'URL Encoded Successfully' });
+      setEncoded(encodeURIComponent(newDecoded));
     } catch (e) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Could not encode URL.' });
+      // Ignore errors while typing
     }
   };
 
-  const handleDecode = () => {
+  const handleEncodedChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newEncoded = e.target.value;
+    setEncoded(newEncoded);
     try {
-      setDecoded(decodeURIComponent(encoded));
-      toast({ title: 'URL Decoded Successfully' });
+      setDecoded(decodeURIComponent(newEncoded));
     } catch (e) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Could not decode URL. Check for malformed URI sequences like invalid % encodings.' });
+      // Ignore malformed URI errors while typing
     }
   };
+  
+  const swap = () => {
+    setDecoded(encoded);
+    setEncoded(decoded);
+  }
 
   return (
-    <div className="grid md:grid-cols-2 gap-6 items-start">
+    <div className="grid md:grid-cols-[1fr_auto_1fr] gap-4 items-center">
       <div className="space-y-2">
-        <Label htmlFor="decoded-url">Decoded URL Component</Label>
+        <Label htmlFor="decoded-url">Decoded URL</Label>
         <Textarea
           id="decoded-url"
           value={decoded}
-          onChange={(e) => setDecoded(e.target.value)}
+          onChange={handleDecodedChange}
           placeholder="https://example.com/?q=hello world"
           className="h-48"
         />
-        <Button onClick={handleEncode} className="w-full">Encode &darr;</Button>
       </div>
+
+       <div className="flex justify-center">
+        <Button variant="ghost" size="icon" onClick={swap}>
+          <ArrowRightLeft />
+        </Button>
+      </div>
+
       <div className="space-y-2">
-        <Label htmlFor="encoded-url">Encoded URL Component</Label>
+        <Label htmlFor="encoded-url">Encoded URL</Label>
         <Textarea
           id="encoded-url"
           value={encoded}
-          onChange={(e) => setEncoded(e.target.value)}
+          onChange={handleEncodedChange}
           placeholder="https%3A%2F%2Fexample.com%2F%3Fq%3Dhello%20world"
           className="h-48 font-mono"
         />
-        <Button onClick={handleDecode} className="w-full">Decode &uarr;</Button>
       </div>
     </div>
   );
