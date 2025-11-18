@@ -9,11 +9,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const gstRates = ["3", "5", "12", "18", "28"];
+const currencies = ['INR', 'USD', 'EUR', 'GBP', 'JPY'];
 
 export default function GstTaxCalculator() {
   const [amount, setAmount] = useState("1000");
   const [rate, setRate] = useState("18");
   const [type, setType] = useState<"inclusive" | "exclusive">("exclusive");
+  const [currency, setCurrency] = useState('INR');
   const [result, setResult] = useState<{ original: number; gst: number; total: number } | null>(null);
 
   const calculateGst = () => {
@@ -39,23 +41,34 @@ export default function GstTaxCalculator() {
     }
   };
   
-  const formatCurrency = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(value);
+  const formatCurrency = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: currency }).format(value);
 
   return (
     <div className="space-y-6">
-      <div className="grid md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="amount">Amount (₹)</Label>
+      <div className="grid md:grid-cols-3 gap-4">
+        <div className="space-y-2 md:col-span-2">
+          <Label htmlFor="amount">Amount</Label>
           <Input id="amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
         </div>
         <div className="space-y-2">
+          <Label htmlFor="currency">Currency</Label>
+          <Select value={currency} onValueChange={setCurrency}>
+            <SelectTrigger id="currency">
+              <SelectValue placeholder="Select currency" />
+            </SelectTrigger>
+            <SelectContent>
+              {currencies.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div className="space-y-2">
           <Label>GST Rate</Label>
            <Select value={rate} onValueChange={setRate}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>{gstRates.map(r => <SelectItem key={r} value={r}>{r}%</SelectItem>)}</SelectContent>
           </Select>
         </div>
-      </div>
       <div className="space-y-2">
         <Label>Type</Label>
         <RadioGroup value={type} onValueChange={(v) => setType(v as any)} className="flex gap-4">
