@@ -13,20 +13,28 @@ export default function RemoveDuplicateLines() {
   const handleRemoveDuplicates = () => {
     const lines = text.split('\n');
     const seen = new Set();
-    const uniqueLines = lines.filter(line => {
-      // For case-sensitive comparison, just use 'line'
-      // For case-insensitive, use line.toLowerCase()
-      const lineToCompare = line; 
-      if (seen.has(lineToCompare)) {
-        return false;
-      } else {
-        seen.add(lineToCompare);
-        return true;
-      }
-    });
+    const uniqueLines: string[] = [];
     
-    setText(uniqueLines.join('\n'));
-    toast({ title: "Duplicate lines removed!" });
+    for (const line of lines) {
+      const trimmedLine = line.trim();
+      if (trimmedLine === '') { // Keep intentional empty lines if needed, or adjust logic
+        if (!seen.has(trimmedLine)) {
+            uniqueLines.push(line);
+            seen.add(trimmedLine);
+        }
+        continue;
+      }
+      if (!seen.has(line)) {
+        uniqueLines.push(line);
+        seen.add(line);
+      }
+    }
+    
+    const newText = uniqueLines.join('\n');
+    setText(newText);
+
+    const removedCount = lines.length - uniqueLines.length;
+    toast({ title: `Removed ${removedCount} duplicate line(s)!` });
   };
   
   const copyToClipboard = () => {
