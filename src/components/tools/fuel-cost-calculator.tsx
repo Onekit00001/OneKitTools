@@ -23,7 +23,7 @@ export default function FuelCostCalculator() {
     return (d / m) * p;
   }, [distance, mileage, fuelPrice]);
   
-  const formatCurrency = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: currency, minimumFractionDigits: 2 }).format(value);
+  const formatCurrency = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: currency, minimumFractionDigits: 2 }).format(value);
 
   return (
     <div className="space-y-6">

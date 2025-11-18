@@ -29,6 +29,7 @@ export function ToolGrid({ tools }: ToolGridProps) {
       params.set("category", category);
     }
     const newUrl = `${pathname}?${params.toString()}`;
+    // Use scroll: false to prevent scrolling to the top of the page
     router.push(newUrl, { scroll: false });
   };
 
@@ -41,7 +42,7 @@ export function ToolGrid({ tools }: ToolGridProps) {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row gap-4 mb-8">
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="relative flex-grow">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
@@ -53,14 +54,14 @@ export function ToolGrid({ tools }: ToolGridProps) {
             aria-label="Search tools"
           />
         </div>
+        <Tabs value={selectedCategory} onValueChange={handleCategoryChange}>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
+            {categories.map(category => (
+              <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
       </div>
-      <Tabs value={selectedCategory} onValueChange={handleCategoryChange} className="mb-8">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
-          {categories.map(category => (
-            <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
       
       {filteredTools.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

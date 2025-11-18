@@ -25,7 +25,7 @@ export default function DiscountCalculator() {
     return { finalPrice: final, youSave: saved };
   }, [price, discount]);
   
-  const formatCurrency = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: currency }).format(value);
+  const formatCurrency = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(value);
 
   return (
     <div className="grid md:grid-cols-2 gap-8">

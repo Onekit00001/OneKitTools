@@ -118,7 +118,7 @@ export default function NoteTakingApp() {
               <Input
                 value={activeNote.title}
                 onChange={e => updateNote(activeNote.id, e.target.value, activeNote.content)}
-                className="text-lg font-bold h-10"
+                className="text-lg font-bold h-10 flex-grow"
               />
               <Button variant="destructive" size="icon" onClick={() => deleteNote(activeNote.id)}>
                 <Trash className="h-4 w-4" />
@@ -127,7 +127,7 @@ export default function NoteTakingApp() {
             <Textarea
               value={activeNote.content}
               onChange={e => updateNote(activeNote.id, activeNote.title, e.target.value)}
-              className="flex-grow resize-none text-base"
+              className="flex-grow resize-none text-base h-full"
               placeholder="Start writing..."
             />
           </div>

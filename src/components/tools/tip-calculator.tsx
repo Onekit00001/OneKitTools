@@ -33,7 +33,7 @@ export default function TipCalculator() {
     };
   }, [bill, tipPercent, people]);
   
-  const formatCurrency = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: currency, minimumFractionDigits: 2 }).format(value);
+  const formatCurrency = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: currency, minimumFractionDigits: 2 }).format(value);
 
   return (
     <div className="grid md:grid-cols-2 gap-8">
@@ -62,7 +62,7 @@ export default function TipCalculator() {
           </div>
           <div>
             <Label htmlFor="people">Number of People</Label>
-            <Input id="people" type="number" value={people} onChange={(e) => setPeople(e.target.value)} />
+            <Input id="people" type="number" value={people} onChange={(e) => setPeople(e.target.value)} min="1" />
           </div>
         </div>
       </div>

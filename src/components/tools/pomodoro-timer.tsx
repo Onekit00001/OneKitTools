@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, RefreshCw, Coffee, BrainCircuit } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const modes = {
   pomodoro: { time: 25 * 60, name: 'Pomodoro', icon: BrainCircuit },
@@ -18,17 +19,23 @@ export default function PomodoroTimer() {
   const [isActive, setIsActive] = useState(false);
   const [pomodoros, setPomodoros] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
-    // This effect runs only on the client
-    audioRef.current = new Audio('/sounds/timer-end.mp3'); // Assumes sound is in /public/sounds
+    // This effect runs only on the client side
+    if (typeof window !== 'undefined') {
+      // It's safe to assume the sound file is in /public/sounds/
+      // You may need to add the sound file there.
+      audioRef.current = new Audio('/sounds/timer-end.mp3');
+    }
   }, []);
 
   const switchMode = useCallback((newMode: Mode) => {
     setIsActive(false);
     setMode(newMode);
     setTime(modes[newMode].time);
-  }, []);
+    toast({ title: `Time for a ${modes[newMode].name}!`});
+  }, [toast]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -37,10 +44,11 @@ export default function PomodoroTimer() {
         setTime((prevTime) => prevTime - 1);
       }, 1000);
     } else if (isActive && time === 0) {
-      audioRef.current?.play();
+      audioRef.current?.play().catch(e => console.error("Error playing sound:", e));
       if (mode === 'pomodoro') {
-        setPomodoros(prev => prev + 1);
-        if ((pomodoros + 1) % 4 === 0) {
+        const newPomodoroCount = pomodoros + 1;
+        setPomodoros(newPomodoroCount);
+        if (newPomodoroCount % 4 === 0) {
           switchMode('longBreak');
         } else {
           switchMode('shortBreak');
