@@ -1,8 +1,9 @@
+
 "use client";
 
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -43,6 +44,9 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
+                <SheetHeader>
+                    <SheetTitle className="sr-only">Menu</SheetTitle>
+                </SheetHeader>
               <div className="p-4">
                 <Logo />
                 <nav className="mt-8 flex flex-col gap-4">
