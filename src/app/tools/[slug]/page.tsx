@@ -1,4 +1,4 @@
-import { tools, toolComponentMap } from '@/lib/tools';
+import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,7 +6,7 @@ import { type Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import dynamic from 'next/dynamic';
+import { ToolRenderer } from '@/components/tool-renderer';
 
 type Props = {
   params: { slug: string };
@@ -40,16 +40,6 @@ export default function ToolPage({ params }: Props) {
     notFound();
   }
 
-  const componentKey = Object.keys(toolComponentMap).find(key => key.toLowerCase() === tool.slug.replace(/-/g, '')) as keyof typeof toolComponentMap | undefined;
-
-  const ToolComponent = componentKey 
-    ? dynamic(toolComponentMap[componentKey], {
-      ssr: false,
-      loading: () => <p>Loading...</p>
-    })
-    : dynamic(() => import('@/components/tools/coming-soon'));
-
-
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <div className="mb-6">
@@ -64,7 +54,7 @@ export default function ToolPage({ params }: Props) {
       <div className="max-w-4xl mx-auto">
         <Card className="overflow-hidden">
           <CardContent className="p-4 md:p-6">
-            <ToolComponent />
+            <ToolRenderer slug={tool.slug} />
           </CardContent>
         </Card>
       </div>
