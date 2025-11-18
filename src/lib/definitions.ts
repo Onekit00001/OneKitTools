@@ -7,7 +7,7 @@ export type Tool = {
   name: string;
   slug: string;
   description: string;
-  icon: Icon | string;
+  icon: string;
   category: 'Image' | 'Calculator' | 'Text' | 'Web & Developer' | 'Utility' | 'Productivity';
   component: React.ComponentType;
 };

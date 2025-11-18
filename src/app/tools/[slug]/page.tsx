@@ -1,4 +1,4 @@
-import { tools } from '@/lib/tools';
+import { tools, toolComponentMap } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,6 +6,7 @@ import { type Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import dynamic from 'next/dynamic';
 
 type Props = {
   params: { slug: string };
@@ -39,7 +40,15 @@ export default function ToolPage({ params }: Props) {
     notFound();
   }
 
-  const ToolComponent = tool.component;
+  const componentKey = Object.keys(toolComponentMap).find(key => key.toLowerCase() === tool.slug.replace(/-/g, '')) as keyof typeof toolComponentMap | undefined;
+
+  const ToolComponent = componentKey 
+    ? dynamic(toolComponentMap[componentKey], {
+      ssr: false,
+      loading: () => <p>Loading...</p>
+    })
+    : dynamic(() => import('@/components/tools/coming-soon'));
+
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
