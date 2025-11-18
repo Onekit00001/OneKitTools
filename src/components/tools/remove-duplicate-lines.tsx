@@ -12,23 +12,7 @@ export default function RemoveDuplicateLines() {
 
   const handleRemoveDuplicates = () => {
     const lines = text.split('\n');
-    const seen = new Set();
-    const uniqueLines: string[] = [];
-    
-    for (const line of lines) {
-      const trimmedLine = line.trim();
-      if (trimmedLine === '') { // Keep intentional empty lines if needed, or adjust logic
-        if (!seen.has(trimmedLine)) {
-            uniqueLines.push(line);
-            seen.add(trimmedLine);
-        }
-        continue;
-      }
-      if (!seen.has(line)) {
-        uniqueLines.push(line);
-        seen.add(line);
-      }
-    }
+    const uniqueLines = Array.from(new Set(lines));
     
     const newText = uniqueLines.join('\n');
     setText(newText);
