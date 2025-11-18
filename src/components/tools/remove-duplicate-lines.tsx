@@ -12,7 +12,19 @@ export default function RemoveDuplicateLines() {
 
   const handleRemoveDuplicates = () => {
     const lines = text.split('\n');
-    const uniqueLines = Array.from(new Set(lines));
+    const seen = new Set();
+    const uniqueLines = lines.filter(line => {
+      // For case-sensitive comparison, just use 'line'
+      // For case-insensitive, use line.toLowerCase()
+      const lineToCompare = line; 
+      if (seen.has(lineToCompare)) {
+        return false;
+      } else {
+        seen.add(lineToCompare);
+        return true;
+      }
+    });
+    
     setText(uniqueLines.join('\n'));
     toast({ title: "Duplicate lines removed!" });
   };
