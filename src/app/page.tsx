@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { tools } from "@/lib/tools";
 import { ArrowDown } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -25,7 +26,9 @@ export default function Home() {
       </section>
 
       <section id="tools" className="py-16">
-        <ToolGrid tools={tools} />
+        <Suspense fallback={<div>Loading tools...</div>}>
+            <ToolGrid tools={tools} />
+        </Suspense>
       </section>
     </div>
   );
