@@ -19,7 +19,7 @@ export default function FuelCostCalculator() {
     const d = parseFloat(distance);
     const m = parseFloat(mileage);
     const p = parseFloat(fuelPrice);
-    if (isNaN(d) || isNaN(m) || isNaN(p) || m === 0) return 0;
+    if (isNaN(d) || d <= 0 || isNaN(m) || m <= 0 || isNaN(p) || p <= 0) return 0;
     return (d / m) * p;
   }, [distance, mileage, fuelPrice]);
   

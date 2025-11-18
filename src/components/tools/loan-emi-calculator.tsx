@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -32,8 +32,16 @@ export default function LoanEmiCalculator() {
       setEmi(emiValue);
       setTotalInterest(totalInterestValue);
       setTotalPayment(totalPaymentValue);
+    } else {
+      setEmi(null);
+      setTotalInterest(null);
+      setTotalPayment(null);
     }
   };
+
+  useEffect(() => {
+    calculateEmi();
+  }, [principal, rate, tenure]);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);

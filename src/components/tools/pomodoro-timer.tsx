@@ -22,19 +22,18 @@ export default function PomodoroTimer() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // This effect runs only on the client side
     if (typeof window !== 'undefined') {
-      // It's safe to assume the sound file is in /public/sounds/
-      // You may need to add the sound file there.
       audioRef.current = new Audio('/sounds/timer-end.mp3');
     }
   }, []);
 
-  const switchMode = useCallback((newMode: Mode) => {
+  const switchMode = useCallback((newMode: Mode, showToast = true) => {
     setIsActive(false);
     setMode(newMode);
     setTime(modes[newMode].time);
-    toast({ title: `Time for a ${modes[newMode].name}!`});
+    if (showToast) {
+      toast({ title: `Time for a ${modes[newMode].name}!`});
+    }
   }, [toast]);
 
   useEffect(() => {
@@ -48,7 +47,7 @@ export default function PomodoroTimer() {
       if (mode === 'pomodoro') {
         const newPomodoroCount = pomodoros + 1;
         setPomodoros(newPomodoroCount);
-        if (newPomodoroCount % 4 === 0) {
+        if (newPomodoroCount > 0 && newPomodoroCount % 4 === 0) {
           switchMode('longBreak');
         } else {
           switchMode('shortBreak');
@@ -63,6 +62,7 @@ export default function PomodoroTimer() {
   }, [isActive, time, mode, pomodoros, switchMode]);
 
   const toggleTimer = () => setIsActive(!isActive);
+  
   const resetTimer = () => {
     setIsActive(false);
     setTime(modes[mode].time);
@@ -79,13 +79,13 @@ export default function PomodoroTimer() {
   return (
     <div className="flex flex-col items-center justify-center space-y-6 p-4">
       <div className="flex space-x-2">
-        {Object.keys(modes).map((key) => (
+        {(Object.keys(modes) as Mode[]).map((key) => (
           <Button
             key={key}
             variant={mode === key ? 'default' : 'outline'}
-            onClick={() => switchMode(key as Mode)}
+            onClick={() => switchMode(key, false)}
           >
-            {modes[key as Mode].name}
+            {modes[key].name}
           </Button>
         ))}
       </div>

@@ -63,7 +63,8 @@ export default function NoteTakingApp() {
   const deleteNote = (id: number) => {
     setNotes(notes.filter(note => note.id !== id));
     if (activeNote?.id === id) {
-      setActiveNote(null);
+      const remainingNotes = notes.filter(note => note.id !== id);
+      setActiveNote(remainingNotes.length > 0 ? remainingNotes[0] : null);
     }
   };
 
@@ -71,6 +72,12 @@ export default function NoteTakingApp() {
     note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     note.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
+  useEffect(() => {
+    if(activeNote && !notes.find(n => n.id === activeNote.id)) {
+        setActiveNote(notes.length > 0 ? notes[0] : null);
+    }
+  }, [notes, activeNote]);
 
   return (
     <div className="grid md:grid-cols-3 gap-6 h-[70vh]">
@@ -111,7 +118,7 @@ export default function NoteTakingApp() {
       </div>
 
       {/* Editor */}
-      <div className="md:col-span-2">
+      <div className="md:col-span-2 flex flex-col">
         {activeNote ? (
           <div className="flex flex-col h-full gap-4">
             <div className="flex items-center gap-2">
@@ -127,7 +134,7 @@ export default function NoteTakingApp() {
             <Textarea
               value={activeNote.content}
               onChange={e => updateNote(activeNote.id, activeNote.title, e.target.value)}
-              className="flex-grow resize-none text-base h-full"
+              className="flex-grow resize-none text-base"
               placeholder="Start writing..."
             />
           </div>

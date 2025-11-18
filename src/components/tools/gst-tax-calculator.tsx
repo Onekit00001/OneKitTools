@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,10 @@ export default function GstTaxCalculator() {
   const calculateGst = () => {
     const baseAmount = parseFloat(amount);
     const gstRate = parseFloat(rate) / 100;
-    if (isNaN(baseAmount) || isNaN(gstRate)) return;
+    if (isNaN(baseAmount) || baseAmount <= 0 || isNaN(gstRate) || gstRate < 0) {
+      setResult(null);
+      return;
+    };
 
     if (type === "exclusive") {
       const gstAmount = baseAmount * gstRate;
@@ -40,8 +43,12 @@ export default function GstTaxCalculator() {
       });
     }
   };
+
+  useEffect(() => {
+    calculateGst();
+  }, [amount, rate, type]);
   
-  const formatCurrency = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: currency }).format(value);
+  const formatCurrency = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(value);
 
   return (
     <div className="space-y-6">

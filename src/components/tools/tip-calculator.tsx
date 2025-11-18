@@ -20,7 +20,7 @@ export default function TipCalculator() {
     const tip = parseFloat(tipPercent);
     const numPeople = parseInt(people);
 
-    if (isNaN(billAmount) || billAmount <= 0 || isNaN(tip) || isNaN(numPeople) || numPeople < 1) {
+    if (isNaN(billAmount) || billAmount <= 0 || isNaN(tip) || tip < 0 || isNaN(numPeople) || numPeople < 1) {
       return { tipAmount: 0, total: 0, perPerson: 0 };
     }
     const tipValue = billAmount * (tip / 100);

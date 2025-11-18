@@ -17,7 +17,7 @@ export default function DiscountCalculator() {
   const { finalPrice, youSave } = useMemo(() => {
     const originalPrice = parseFloat(price);
     const discountPercent = parseFloat(discount);
-    if (isNaN(originalPrice) || isNaN(discountPercent)) {
+    if (isNaN(originalPrice) || originalPrice <= 0 || isNaN(discountPercent) || discountPercent < 0) {
       return { finalPrice: 0, youSave: 0 };
     }
     const saved = originalPrice * (discountPercent / 100);
