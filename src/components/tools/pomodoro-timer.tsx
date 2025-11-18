@@ -21,12 +21,6 @@ export default function PomodoroTimer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { toast } = useToast();
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      audioRef.current = new Audio('/sounds/timer-end.mp3');
-    }
-  }, []);
-
   const switchMode = useCallback((newMode: Mode, showToast = true) => {
     setIsActive(false);
     setMode(newMode);
@@ -37,7 +31,16 @@ export default function PomodoroTimer() {
   }, [toast]);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && !audioRef.current) {
+        try {
+            audioRef.current = new Audio('/sounds/timer-end.mp3');
+        } catch (e) {
+            console.error("Failed to create audio element", e)
+        }
+    }
+    
     let interval: NodeJS.Timeout | null = null;
+
     if (isActive && time > 0) {
       interval = setInterval(() => {
         setTime((prevTime) => prevTime - 1);

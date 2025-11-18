@@ -7,18 +7,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarIcon } from "lucide-react";
-import { format, differenceInDays, differenceInWeeks, differenceInMonths, differenceInYears } from "date-fns";
+import { format, differenceInDays, differenceInWeeks, differenceInMonths, differenceInYears, addDays } from "date-fns";
 
 export default function DateTimeCalculator() {
   const [fromDate, setFromDate] = useState<Date | undefined>(new Date());
   const [toDate, setToDate] = useState<Date | undefined>(addDays(new Date(), 30));
   const [diff, setDiff] = useState<{ years: number, months: number, weeks: number, days: number } | null>(null);
-
-  function addDays(date: Date, days: number): Date {
-      const result = new Date(date);
-      result.setDate(result.getDate() + days);
-      return result;
-  }
 
   const calculateDifference = () => {
     if (!fromDate || !toDate) return;

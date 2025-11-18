@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Search, MapPin, Wind, Droplet, Sun, Cloud, CloudRain, CloudSnow, Thermometer } from 'lucide-react';
+import { Search, MapPin, Wind, Droplet, Sun, Cloud, CloudRain, CloudSnow, CloudSun } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 type WeatherData = {
@@ -20,8 +20,8 @@ type WeatherData = {
 // A mapping from WMO weather codes to a simpler icon representation and description
 const weatherCodes: { [key: number]: { description: string; icon: string } } = {
   0: { description: 'Clear sky', icon: 'sun' },
-  1: { description: 'Mainly clear', icon: 'sun-cloud' },
-  2: { description: 'Partly cloudy', icon: 'cloud' },
+  1: { description: 'Mainly clear', icon: 'sun' },
+  2: { description: 'Partly cloudy', icon: 'sun-cloud' },
   3: { description: 'Overcast', icon: 'cloud' },
   45: { description: 'Fog', icon: 'cloud' },
   48: { description: 'Depositing rime fog', icon: 'cloud' },
