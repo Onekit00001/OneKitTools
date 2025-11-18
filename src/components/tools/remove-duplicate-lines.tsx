@@ -12,7 +12,7 @@ export default function RemoveDuplicateLines() {
 
   const handleRemoveDuplicates = () => {
     const lines = text.split('\n');
-    const uniqueLines = [...new Set(lines)];
+    const uniqueLines = Array.from(new Set(lines));
     setText(uniqueLines.join('\n'));
     toast({ title: "Duplicate lines removed!" });
   };
