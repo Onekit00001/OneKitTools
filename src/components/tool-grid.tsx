@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { ToolCard } from "@/components/tool-card";
 import type { Tool } from "@/lib/definitions";
@@ -12,10 +13,20 @@ interface ToolGridProps {
 }
 
 export function ToolGrid({ tools }: ToolGridProps) {
+  const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-
+  
   const categories = ["All", ...Array.from(new Set(tools.map(tool => tool.category)))];
+  const initialCategory = searchParams.get("category");
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory && categories.includes(initialCategory) ? initialCategory : "All");
+
+  useEffect(() => {
+    const category = searchParams.get("category");
+    if (category && categories.includes(category)) {
+      setSelectedCategory(category);
+    }
+  }, [searchParams, categories]);
+
 
   const filteredTools = tools.filter(tool => {
     const matchesCategory = selectedCategory === "All" || tool.category === selectedCategory;
