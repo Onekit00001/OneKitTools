@@ -32,12 +32,10 @@ export default function RemoveDuplicateLines() {
         placeholder="Paste your list here, with each item on a new line..."
         className="h-60 text-base"
       />
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button onClick={handleRemoveDuplicates}>
           <Sparkles className="mr-2 h-4 w-4" /> Remove Duplicates
         </Button>
-      </div>
-      <div className="flex gap-2">
         <Button variant="outline" onClick={copyToClipboard} disabled={!text}>
           <Clipboard className="mr-2 h-4 w-4" /> Copy
         </Button>
