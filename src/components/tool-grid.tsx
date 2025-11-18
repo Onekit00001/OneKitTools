@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { ToolCard } from "@/components/tool-card";
 import type { Tool } from "@/lib/definitions";
@@ -14,19 +14,22 @@ interface ToolGridProps {
 
 export function ToolGrid({ tools }: ToolGridProps) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const [searchTerm, setSearchTerm] = useState("");
   
   const categories = ["All", ...Array.from(new Set(tools.map(tool => tool.category)))];
-  const initialCategory = searchParams.get("category");
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory && categories.includes(initialCategory) ? initialCategory : "All");
+  const selectedCategory = searchParams.get("category") || "All";
 
-  useEffect(() => {
-    const category = searchParams.get("category");
-    if (category && categories.includes(category)) {
-      setSelectedCategory(category);
+  const handleCategoryChange = (category: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (category === "All") {
+      params.delete("category");
+    } else {
+      params.set("category", category);
     }
-  }, [searchParams, categories]);
-
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
   const filteredTools = tools.filter(tool => {
     const matchesCategory = selectedCategory === "All" || tool.category === selectedCategory;
@@ -50,7 +53,7 @@ export function ToolGrid({ tools }: ToolGridProps) {
           />
         </div>
       </div>
-      <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="mb-8">
+      <Tabs value={selectedCategory} onValueChange={handleCategoryChange} className="mb-8">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
           {categories.map(category => (
             <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
