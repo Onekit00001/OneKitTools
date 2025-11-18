@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { ToolCard } from "@/components/tool-card";
@@ -22,13 +22,14 @@ export function ToolGrid({ tools }: ToolGridProps) {
   const selectedCategory = searchParams.get("category") || "All";
 
   const handleCategoryChange = (category: string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams.toString());
     if (category === "All") {
       params.delete("category");
     } else {
       params.set("category", category);
     }
-    router.push(`${pathname}?${params.toString()}`);
+    const newUrl = `${pathname}?${params.toString()}`;
+    router.push(newUrl, { scroll: false });
   };
 
   const filteredTools = tools.filter(tool => {
