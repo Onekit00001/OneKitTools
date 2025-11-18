@@ -44,9 +44,9 @@ export default function ToolPage({ params }: Props) {
     <div className="container mx-auto px-4 py-8 md:py-12">
       <div className="mb-6">
         <Button asChild variant="ghost">
-          <Link href={`/?category=${tool.category}#tools`}>
+          <Link href="/#tools">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to {tool.category} Tools
+            Back to Tools
           </Link>
         </Button>
       </div>
