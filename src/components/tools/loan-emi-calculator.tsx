@@ -7,11 +7,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Landmark } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const currencies = ['INR', 'USD', 'EUR', 'GBP', 'JPY'];
 
 export default function LoanEmiCalculator() {
   const [principal, setPrincipal] = useState(1000000);
   const [rate, setRate] = useState(8.5);
   const [tenure, setTenure] = useState(20);
+  const [currency, setCurrency] = useState('INR');
   const [emi, setEmi] = useState<number | null>(null);
   const [totalInterest, setTotalInterest] = useState<number | null>(null);
   const [totalPayment, setTotalPayment] = useState<number | null>(null);
@@ -33,13 +37,23 @@ export default function LoanEmiCalculator() {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(value);
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
   };
   
   return (
     <div className="space-y-6">
       <div>
-        <Label htmlFor="principal">Loan Amount: {formatCurrency(principal)}</Label>
+        <div className="flex justify-between items-center mb-2">
+            <Label htmlFor="principal">Loan Amount: {formatCurrency(principal)}</Label>
+            <Select value={currency} onValueChange={setCurrency}>
+              <SelectTrigger className="w-28">
+                <SelectValue placeholder="Currency" />
+              </SelectTrigger>
+              <SelectContent>
+                {currencies.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              </SelectContent>
+            </Select>
+        </div>
         <Slider id="principal" min={100000} max={20000000} step={100000} value={[principal]} onValueChange={(val) => setPrincipal(val[0])} />
       </div>
       <div>

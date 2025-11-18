@@ -7,11 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { User } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const currencies = ['INR', 'USD', 'EUR', 'GBP', 'JPY'];
 
 export default function TipCalculator() {
   const [bill, setBill] = useState("500");
   const [tipPercent, setTipPercent] = useState(15);
   const [people, setPeople] = useState(1);
+  const [currency, setCurrency] = useState('INR');
 
   const { tipAmount, total, perPerson } = useMemo(() => {
     const billAmount = parseFloat(bill);
@@ -28,14 +32,27 @@ export default function TipCalculator() {
     };
   }, [bill, tipPercent, people]);
   
-  const formatCurrency = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(value);
+  const formatCurrency = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: currency, minimumFractionDigits: 2 }).format(value);
 
   return (
     <div className="grid md:grid-cols-2 gap-8">
       <div className="space-y-6">
-        <div>
-          <Label htmlFor="bill">Bill Amount (₹)</Label>
-          <Input id="bill" type="number" value={bill} onChange={(e) => setBill(e.target.value)} />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="bill">Bill Amount</Label>
+            <Input id="bill" type="number" value={bill} onChange={(e) => setBill(e.target.value)} />
+          </div>
+          <div>
+            <Label htmlFor="currency">Currency</Label>
+            <Select value={currency} onValueChange={setCurrency}>
+              <SelectTrigger id="currency">
+                <SelectValue placeholder="Select currency" />
+              </SelectTrigger>
+              <SelectContent>
+                {currencies.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div>
           <Label>Tip Percentage: {tipPercent}%</Label>

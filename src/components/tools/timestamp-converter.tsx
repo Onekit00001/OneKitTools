@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function TimestampConverter() {
   const [timestamp, setTimestamp] = useState(Math.floor(Date.now() / 1000).toString());
-  const [date, setDate] = useState(new Date().toLocaleString());
+  const [date, setDate] = useState(new Date().toLocaleString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).replace(',', ''));
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -20,26 +20,39 @@ export default function TimestampConverter() {
   const handleTimestampChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const ts = e.target.value;
     setTimestamp(ts);
-    const numTs = parseInt(ts, 10);
-    if (!isNaN(numTs)) {
-      setDate(new Date(numTs * 1000).toLocaleString());
-    }
+    convertFromTimestamp(ts);
   };
   
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const d = e.target.value;
       setDate(d);
-      const parsedDate = Date.parse(d);
+      convertFromDate(d);
+  }
+  
+  const convertFromTimestamp = (ts: string) => {
+    const numTs = parseInt(ts, 10);
+    if (!isNaN(numTs)) {
+        const dateObject = new Date(numTs * 1000);
+        setDate(dateObject.toLocaleString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).replace(',', ''));
+    }
+  };
+
+  const convertFromDate = (d: string) => {
+    const parsedDate = Date.parse(d.replace(' ', 'T'));
       if(!isNaN(parsedDate)) {
           setTimestamp(Math.floor(parsedDate/1000).toString());
       }
-  }
+  };
 
   const useCurrentTimestamp = () => {
     const ts = Math.floor(Date.now() / 1000);
     setTimestamp(ts.toString());
-    setDate(new Date(ts * 1000).toLocaleString());
+    convertFromTimestamp(ts.toString());
   };
+  
+   useEffect(() => {
+    useCurrentTimestamp();
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -57,8 +70,8 @@ export default function TimestampConverter() {
         </div>
         <ArrowRightLeft className="h-6 w-6 text-muted-foreground hidden md:block" />
         <div className="space-y-2">
-          <Label htmlFor="date">Human Readable Date</Label>
-          <Input id="date" value={date} onChange={handleDateChange} />
+          <Label htmlFor="date">Human Readable Date (YYYY-MM-DD HH:mm:ss)</Label>
+          <Input id="date" value={date} onChange={handleDateChange} placeholder="e.g., 2024-01-01 14:30:00" />
         </div>
       </div>
       <Button onClick={useCurrentTimestamp} variant="outline">

@@ -7,11 +7,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Coins } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const currencies = ['INR', 'USD', 'EUR', 'GBP', 'JPY'];
 
 export default function SipCalculator() {
   const [monthlyInvestment, setMonthlyInvestment] = useState(10000);
   const [rate, setRate] = useState(12);
   const [tenure, setTenure] = useState(10);
+  const [currency, setCurrency] = useState('INR');
   const [investedAmount, setInvestedAmount] = useState<number | null>(null);
   const [estimatedReturns, setEstimatedReturns] = useState<number | null>(null);
   const [totalValue, setTotalValue] = useState<number | null>(null);
@@ -33,13 +37,23 @@ export default function SipCalculator() {
   };
   
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(value);
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <Label htmlFor="monthly-investment">Monthly Investment: {formatCurrency(monthlyInvestment)}</Label>
+        <div className="flex justify-between items-center mb-2">
+            <Label htmlFor="monthly-investment">Monthly Investment: {formatCurrency(monthlyInvestment)}</Label>
+             <Select value={currency} onValueChange={setCurrency}>
+              <SelectTrigger className="w-28">
+                <SelectValue placeholder="Currency" />
+              </SelectTrigger>
+              <SelectContent>
+                {currencies.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              </SelectContent>
+            </Select>
+        </div>
         <Slider id="monthly-investment" min={500} max={100000} step={500} value={[monthlyInvestment]} onValueChange={(val) => setMonthlyInvestment(val[0])} />
       </div>
       <div>
