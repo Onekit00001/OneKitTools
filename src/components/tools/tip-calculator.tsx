@@ -3,8 +3,6 @@
 import { useState, useMemo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { User } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -13,20 +11,23 @@ const currencies = ['INR', 'USD', 'EUR', 'GBP', 'JPY'];
 
 export default function TipCalculator() {
   const [bill, setBill] = useState("500");
-  const [tipPercent, setTipPercent] = useState(15);
-  const [people, setPeople] = useState(1);
+  const [tipPercent, setTipPercent] = useState("15");
+  const [people, setPeople] = useState("1");
   const [currency, setCurrency] = useState('INR');
 
   const { tipAmount, total, perPerson } = useMemo(() => {
     const billAmount = parseFloat(bill);
-    if (isNaN(billAmount) || billAmount <= 0) {
+    const tip = parseFloat(tipPercent);
+    const numPeople = parseInt(people);
+
+    if (isNaN(billAmount) || billAmount <= 0 || isNaN(tip) || isNaN(numPeople) || numPeople < 1) {
       return { tipAmount: 0, total: 0, perPerson: 0 };
     }
-    const tip = billAmount * (tipPercent / 100);
-    const totalAmount = billAmount + tip;
-    const split = totalAmount / people;
+    const tipValue = billAmount * (tip / 100);
+    const totalAmount = billAmount + tipValue;
+    const split = totalAmount / numPeople;
     return {
-      tipAmount: tip,
+      tipAmount: tipValue,
       total: totalAmount,
       perPerson: split,
     };
@@ -54,13 +55,15 @@ export default function TipCalculator() {
             </Select>
           </div>
         </div>
-        <div>
-          <Label>Tip Percentage: {tipPercent}%</Label>
-          <Slider min={5} max={50} step={1} value={[tipPercent]} onValueChange={(val) => setTipPercent(val[0])} />
-        </div>
-        <div>
-          <Label>Number of People: {people}</Label>
-          <Slider min={1} max={20} step={1} value={[people]} onValueChange={(val) => setPeople(val[0])} />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="tip">Tip Percentage (%)</Label>
+            <Input id="tip" type="number" value={tipPercent} onChange={(e) => setTipPercent(e.target.value)} />
+          </div>
+          <div>
+            <Label htmlFor="people">Number of People</Label>
+            <Input id="people" type="number" value={people} onChange={(e) => setPeople(e.target.value)} />
+          </div>
         </div>
       </div>
       
@@ -77,7 +80,7 @@ export default function TipCalculator() {
             <p>Total Bill</p>
             <p className="text-2xl font-bold">{formatCurrency(total)}</p>
           </div>
-          {people > 1 && (
+          {parseInt(people) > 1 && (
             <div className="flex justify-between items-center border-t border-primary-foreground/50 pt-4">
               <p className="flex items-center gap-2"><User /> Per Person</p>
               <p className="text-3xl font-bold">{formatCurrency(perPerson)}</p>

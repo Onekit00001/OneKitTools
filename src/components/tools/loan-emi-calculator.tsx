@@ -5,25 +5,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Landmark } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const currencies = ['INR', 'USD', 'EUR', 'GBP', 'JPY'];
 
 export default function LoanEmiCalculator() {
-  const [principal, setPrincipal] = useState(1000000);
-  const [rate, setRate] = useState(8.5);
-  const [tenure, setTenure] = useState(20);
+  const [principal, setPrincipal] = useState("1000000");
+  const [rate, setRate] = useState("8.5");
+  const [tenure, setTenure] = useState("20");
   const [currency, setCurrency] = useState('INR');
   const [emi, setEmi] = useState<number | null>(null);
   const [totalInterest, setTotalInterest] = useState<number | null>(null);
   const [totalPayment, setTotalPayment] = useState<number | null>(null);
 
   const calculateEmi = () => {
-    const p = principal;
-    const r = rate / 12 / 100;
-    const n = tenure * 12;
+    const p = parseFloat(principal);
+    const r = parseFloat(rate) / 12 / 100;
+    const n = parseFloat(tenure) * 12;
 
     if (p > 0 && r > 0 && n > 0) {
       const emiValue = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
@@ -42,27 +41,32 @@ export default function LoanEmiCalculator() {
   
   return (
     <div className="space-y-6">
-      <div>
-        <div className="flex justify-between items-center mb-2">
-            <Label htmlFor="principal">Loan Amount: {formatCurrency(principal)}</Label>
-            <Select value={currency} onValueChange={setCurrency}>
-              <SelectTrigger className="w-28">
-                <SelectValue placeholder="Currency" />
-              </SelectTrigger>
-              <SelectContent>
-                {currencies.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
-              </SelectContent>
-            </Select>
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="principal">Loan Amount</Label>
+           <Input id="principal" type="number" value={principal} onChange={(e) => setPrincipal(e.target.value)} />
         </div>
-        <Slider id="principal" min={100000} max={20000000} step={100000} value={[principal]} onValueChange={(val) => setPrincipal(val[0])} />
+        <div>
+          <Label htmlFor="currency">Currency</Label>
+          <Select value={currency} onValueChange={setCurrency}>
+            <SelectTrigger id="currency">
+              <SelectValue placeholder="Currency" />
+            </SelectTrigger>
+            <SelectContent>
+              {currencies.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-      <div>
-        <Label htmlFor="rate">Interest Rate (%): {rate.toFixed(2)}</Label>
-        <Slider id="rate" min={1} max={20} step={0.05} value={[rate]} onValueChange={(val) => setRate(val[0])} />
-      </div>
-      <div>
-        <Label htmlFor="tenure">Loan Tenure (Years): {tenure}</Label>
-        <Slider id="tenure" min={1} max={30} step={1} value={[tenure]} onValueChange={(val) => setTenure(val[0])} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="rate">Interest Rate (% p.a.)</Label>
+          <Input id="rate" type="number" value={rate} onChange={(e) => setRate(e.target.value)} />
+        </div>
+        <div>
+          <Label htmlFor="tenure">Loan Tenure (Years)</Label>
+          <Input id="tenure" type="number" value={tenure} onChange={(e) => setTenure(e.target.value)} />
+        </div>
       </div>
 
       <Button onClick={calculateEmi} className="w-full">Calculate EMI</Button>

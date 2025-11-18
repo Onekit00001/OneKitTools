@@ -5,25 +5,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Coins } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const currencies = ['INR', 'USD', 'EUR', 'GBP', 'JPY'];
 
 export default function SipCalculator() {
-  const [monthlyInvestment, setMonthlyInvestment] = useState(10000);
-  const [rate, setRate] = useState(12);
-  const [tenure, setTenure] = useState(10);
+  const [monthlyInvestment, setMonthlyInvestment] = useState("10000");
+  const [rate, setRate] = useState("12");
+  const [tenure, setTenure] = useState("10");
   const [currency, setCurrency] = useState('INR');
   const [investedAmount, setInvestedAmount] = useState<number | null>(null);
   const [estimatedReturns, setEstimatedReturns] = useState<number | null>(null);
   const [totalValue, setTotalValue] = useState<number | null>(null);
 
   const calculateSip = () => {
-    const i = rate / 12 / 100;
-    const n = tenure * 12;
-    const M = monthlyInvestment;
+    const i = parseFloat(rate) / 12 / 100;
+    const n = parseFloat(tenure) * 12;
+    const M = parseFloat(monthlyInvestment);
     
     if (M > 0 && i > 0 && n > 0) {
       const futureValue = M * (((Math.pow(1 + i, n) - 1) / i) * (1 + i));
@@ -42,28 +41,35 @@ export default function SipCalculator() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <div className="flex justify-between items-center mb-2">
-            <Label htmlFor="monthly-investment">Monthly Investment: {formatCurrency(monthlyInvestment)}</Label>
-             <Select value={currency} onValueChange={setCurrency}>
-              <SelectTrigger className="w-28">
-                <SelectValue placeholder="Currency" />
-              </SelectTrigger>
-              <SelectContent>
-                {currencies.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
-              </SelectContent>
-            </Select>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="monthly-investment">Monthly Investment</Label>
+          <Input id="monthly-investment" type="number" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(e.target.value)} />
         </div>
-        <Slider id="monthly-investment" min={500} max={100000} step={500} value={[monthlyInvestment]} onValueChange={(val) => setMonthlyInvestment(val[0])} />
+        <div>
+          <Label htmlFor="currency">Currency</Label>
+          <Select value={currency} onValueChange={setCurrency}>
+            <SelectTrigger id="currency">
+              <SelectValue placeholder="Currency" />
+            </SelectTrigger>
+            <SelectContent>
+              {currencies.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-      <div>
-        <Label htmlFor="rate">Expected Return Rate (% p.a.): {rate.toFixed(1)}</Label>
-        <Slider id="rate" min={1} max={30} step={0.1} value={[rate]} onValueChange={(val) => setRate(val[0])} />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="rate">Expected Return Rate (% p.a.)</Label>
+          <Input id="rate" type="number" value={rate} onChange={(e) => setRate(e.target.value)} />
+        </div>
+        <div>
+          <Label htmlFor="tenure">Time Period (Years)</Label>
+          <Input id="tenure" type="number" value={tenure} onChange={(e) => setTenure(e.target.value)} />
+        </div>
       </div>
-      <div>
-        <Label htmlFor="tenure">Time Period (Years): {tenure}</Label>
-        <Slider id="tenure" min={1} max={40} step={1} value={[tenure]} onValueChange={(val) => setTenure(val[0])} />
-      </div>
+
 
       <Button onClick={calculateSip} className="w-full">Calculate</Button>
 
