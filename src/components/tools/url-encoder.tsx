@@ -7,13 +7,14 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 
 export default function UrlEncoder() {
-  const [decoded, setDecoded] = useState('');
-  const [encoded, setEncoded] = useState('');
+  const [decoded, setDecoded] = useState('https://example.com/?q=hello world&price=€25');
+  const [encoded, setEncoded] = useState('https%3A%2F%2Fexample.com%2F%3Fq%3Dhello%20world%26price%3D%E2%82%AC25');
   const { toast } = useToast();
 
   const handleEncode = () => {
     try {
       setEncoded(encodeURIComponent(decoded));
+      toast({ title: 'URL Encoded Successfully' });
     } catch (e) {
       toast({ variant: 'destructive', title: 'Error', description: 'Could not encode URL.' });
     }
@@ -22,6 +23,7 @@ export default function UrlEncoder() {
   const handleDecode = () => {
     try {
       setDecoded(decodeURIComponent(encoded));
+      toast({ title: 'URL Decoded Successfully' });
     } catch (e) {
       toast({ variant: 'destructive', title: 'Error', description: 'Could not decode URL. Check for malformed URI sequences like invalid % encodings.' });
     }
@@ -30,7 +32,7 @@ export default function UrlEncoder() {
   return (
     <div className="grid md:grid-cols-2 gap-6 items-start">
       <div className="space-y-2">
-        <Label htmlFor="decoded-url">Decoded URL</Label>
+        <Label htmlFor="decoded-url">Decoded URL Component</Label>
         <Textarea
           id="decoded-url"
           value={decoded}
@@ -41,12 +43,12 @@ export default function UrlEncoder() {
         <Button onClick={handleEncode} className="w-full">Encode &darr;</Button>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="encoded-url">Encoded URL</Label>
+        <Label htmlFor="encoded-url">Encoded URL Component</Label>
         <Textarea
           id="encoded-url"
           value={encoded}
           onChange={(e) => setEncoded(e.target.value)}
-          placeholder="https://example.com/%3Fq%3Dhello%20world"
+          placeholder="https%3A%2F%2Fexample.com%2F%3Fq%3Dhello%20world"
           className="h-48 font-mono"
         />
         <Button onClick={handleDecode} className="w-full">Decode &uarr;</Button>

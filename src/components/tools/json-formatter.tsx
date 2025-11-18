@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Clipboard, Sparkles, CheckCircle, XCircle } from "lucide-react";
+import { Clipboard, Sparkles, CheckCircle, XCircle, Eraser } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function JsonFormatter() {
@@ -44,6 +44,11 @@ export default function JsonFormatter() {
     }
   };
 
+  const clearInput = () => {
+    setInput("");
+    setError("");
+  }
+
   return (
     <div className="space-y-4">
       <Textarea
@@ -69,10 +74,13 @@ export default function JsonFormatter() {
       )}
       <div className="flex gap-2">
         <Button onClick={formatJson}>
-          <Sparkles className="mr-2 h-4 w-4" /> Format
+          <Sparkles className="mr-2 h-4 w-4" /> Format / Validate
         </Button>
         <Button variant="outline" onClick={copyToClipboard} disabled={!input || !!error}>
           <Clipboard className="mr-2 h-4 w-4" /> Copy
+        </Button>
+        <Button variant="destructive" onClick={clearInput} disabled={!input}>
+          <Eraser className="mr-2 h-4 w-4" /> Clear
         </Button>
       </div>
     </div>

@@ -8,8 +8,8 @@ import { useToast } from '@/hooks/use-toast';
 import { ArrowRightLeft } from 'lucide-react';
 
 export default function Base64Converter() {
-  const [decoded, setDecoded] = useState('');
-  const [encoded, setEncoded] = useState('');
+  const [decoded, setDecoded] = useState('Hello World!');
+  const [encoded, setEncoded] = useState('SGVsbG8gV29ybGQh');
   const { toast } = useToast();
 
   const handleEncode = () => {
