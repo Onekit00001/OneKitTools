@@ -55,7 +55,7 @@ export default function ToolPage({ params }: Props) {
       <div className="max-w-4xl mx-auto">
         <Card className="overflow-hidden">
           <CardContent className="p-4 md:p-6">
-            {/* Ad Banner has been moved to the root layout to appear on all pages */}
+            {/* Ad Banners are now in the root layout */}
             <Separator className="mb-6" />
             <ToolRenderer slug={tool.slug} />
           </CardContent>

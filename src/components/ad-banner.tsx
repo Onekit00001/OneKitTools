@@ -8,8 +8,9 @@ import Script from 'next/script';
 
 export function AdBanner() {
   return (
-    <>
-      <div id="container-1105d8e39f67f85e9c9d56c6aea750da" className="flex justify-center items-center w-full"></div>
+    <div className="w-full flex justify-center my-8">
+      {/* Container for the ad */}
+      <div id="container-1105d8e39f67f85e9c9d56c6aea750da" className="text-center" />
       <Script
         id="adsterra-native-banner"
         strategy="afterInteractive"
@@ -17,6 +18,6 @@ export function AdBanner() {
         data-cfasync="false"
         async
       />
-    </>
+    </div>
   );
 }

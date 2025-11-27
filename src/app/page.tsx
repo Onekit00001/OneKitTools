@@ -25,7 +25,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Ad Banner has been moved to the root layout to appear on all pages */}
+      {/* The ad banners have been moved to the root layout to appear on all pages */}
 
       <section id="tools" className="py-16">
         <Suspense fallback={<div>Loading tools...</div>}>
