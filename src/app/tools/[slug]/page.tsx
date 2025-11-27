@@ -1,3 +1,4 @@
+import { AdBanner } from '@/components/ad-banner';
 import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/page-header';
@@ -7,6 +8,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { ToolRenderer } from '@/components/tool-renderer';
+import { Separator } from '@/components/ui/separator';
 
 type Props = {
   params: { slug: string };
@@ -54,6 +56,10 @@ export default function ToolPage({ params }: Props) {
       <div className="max-w-4xl mx-auto">
         <Card className="overflow-hidden">
           <CardContent className="p-4 md:p-6">
+            <div className="my-6 flex justify-center">
+                <AdBanner />
+            </div>
+            <Separator className="mb-6" />
             <ToolRenderer slug={tool.slug} />
           </CardContent>
         </Card>
