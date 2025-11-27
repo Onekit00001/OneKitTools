@@ -65,18 +65,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet" />
-        
-        <Script id="adsterra-leaderboard-options" strategy="afterInteractive">
-          {`
-            atOptions = {
-              'key' : 'db600ffd0647e8c85ddc17c87e08e9ca',
-              'format' : 'iframe',
-              'height' : 90,
-              'width' : 728,
-              'params' : {}
-            };
-          `}
-        </Script>
       </head>
       <body className={cn(
           "font-body antialiased",
@@ -85,38 +73,41 @@ export default function RootLayout({
         <div className="relative flex min-h-dvh flex-col bg-background">
           <Header />
           <main className="flex-1">{children}</main>
-
+          
           <div className="container mx-auto px-4">
-              {/* === LEADERBOARD BANNER 728x90 — CENTERED === */}
-              <div className="w-full flex justify-center my-10 px-4">
+              {/* ===== 728×90 BANNER — CENTERED & VISIBLE ===== */}
+              <div className="w-full flex justify-center my-12 px-4">
                 <Script
+                  id="adsterra-728-config"
                   strategy="afterInteractive"
                   dangerouslySetInnerHTML={{
                     __html: `
-                      atOptions = {
+                      var atOptions = {
                         'key' : 'db600ffd0647e8c85ddc17c87e08e9ca',
                         'format' : 'iframe',
                         'height' : 90,
                         'width' : 728,
                         'params' : {}
                       };
-                    `,
+                    `
                   }}
                 />
                 <Script
+                  id="adsterra-728-invoke"
                   src="//www.highperformanceformat.com/db600ffd0647e8c85ddc17c87e08e9ca/invoke.js"
                   strategy="afterInteractive"
                 />
               </div>
 
-              {/* === NATIVE BANNER — CENTERED & RESPONSIVE === */}
+              {/* ===== NATIVE BANNER — FULLY RESPONSIVE ===== */}
               <Script
+                id="adsterra-native"
                 src="//pl28147881.effectivegatecpm.com/1105d8e39f67f85e9c9d56c6aea750da/invoke.js"
                 strategy="afterInteractive"
                 data-cfasync="false"
                 async
               />
-              <div id="container-1105d8e39f67f85e9c9d56c6aea750da" className="my-12 max-w-4xl mx-auto px-4 text-center" />
+              <div id="container-1105d8e39f67f85e9c9d56c6aea750da" className="max-w-4xl mx-auto my-16 px-4 text-center" />
           </div>
           
           <Footer />
