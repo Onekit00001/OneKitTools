@@ -1,4 +1,3 @@
-import { AdBanner } from '@/components/ad-banner';
 import { tools } from '@/lib/tools';
 import { notFound } from 'next/navigation';
 import { PageHeader } from '@/components/page-header';
@@ -56,9 +55,7 @@ export default function ToolPage({ params }: Props) {
       <div className="max-w-4xl mx-auto">
         <Card className="overflow-hidden">
           <CardContent className="p-4 md:p-6">
-            <div className="my-6 flex justify-center">
-                <AdBanner />
-            </div>
+            {/* Ad Banner has been moved to the root layout to appear on all pages */}
             <Separator className="mb-6" />
             <ToolRenderer slug={tool.slug} />
           </CardContent>

@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { cn } from '@/lib/utils';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {
@@ -64,6 +65,19 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet" />
+        
+        {/* Adsterra Leaderboard atOptions */}
+        <Script id="adsterra-leaderboard-options" strategy="afterInteractive">
+          {`
+            atOptions = {
+              'key' : 'db600ffd0647e8c85ddc17c87e08e9ca',
+              'format' : 'iframe',
+              'height' : 90,
+              'width' : 728,
+              'params' : {}
+            };
+          `}
+        </Script>
       </head>
       <body className={cn(
           "font-body antialiased",
@@ -72,9 +86,26 @@ export default function RootLayout({
         <div className="relative flex min-h-dvh flex-col bg-background">
           <Header />
           <main className="flex-1">{children}</main>
+
+          {/* Adsterra Ads Container */}
+          <div className="container mx-auto px-4">
+              {/* Leaderboard Banner 728x90 */}
+              <div className="w-full flex justify-center my-8">
+                  <Script strategy="afterInteractive" src="//www.highperformanceformat.com/db600ffd0647e8c85ddc17c87e08e9ca/invoke.js" />
+              </div>
+
+              {/* Native Banner */}
+              <div className="w-full flex justify-center my-12">
+                  <div id="container-1105d8e39f67f85e9c9d56c6aea750da" className="text-center" />
+              </div>
+          </div>
+          
           <Footer />
         </div>
         <Toaster />
+        
+        {/* Adsterra Native Banner Script */}
+        <Script id="adsterra-native-banner" strategy="afterInteractive" data-cfasync="false" async src="//pl28147881.effectivegatecpm.com/1105d8e39f67f85e9c9d56c6aea750da/invoke.js" />
       </body>
     </html>
   );

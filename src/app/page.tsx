@@ -1,4 +1,3 @@
-import { AdBanner } from "@/components/ad-banner";
 import { ToolGrid } from "@/components/tool-grid";
 import { Button } from "@/components/ui/button";
 import { tools } from "@/lib/tools";
@@ -26,9 +25,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="my-8 flex justify-center">
-        <AdBanner />
-      </div>
+      {/* Ad Banner has been moved to the root layout to appear on all pages */}
 
       <section id="tools" className="py-16">
         <Suspense fallback={<div>Loading tools...</div>}>

@@ -1,5 +1,9 @@
 "use client";
 
+// This component is no longer used for the global ad strategy
+// but is kept in case of future specific ad placements.
+// You can safely remove this file if you do not intend to use it elsewhere.
+
 import Script from 'next/script';
 
 export function AdBanner() {
