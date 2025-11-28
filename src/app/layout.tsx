@@ -74,7 +74,7 @@ export default function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           
-           {/* ===== 728×90 BANNER — CENTERED & VISIBLE ===== */}
+           {/* ===== 728×90 BANNER — CENTERED & VISIBLE ON ALL PAGES ===== */}
            <div className="w-full flex justify-center my-12 px-4">
              <Script
                id="adsterra-728-config"
@@ -98,7 +98,7 @@ export default function RootLayout({
              />
            </div>
 
-           {/* ===== NATIVE BANNER — FULLY RESPONSIVE ===== */}
+           {/* ===== NATIVE BANNER — RESPONSIVE & VISIBLE ON ALL PAGES ===== */}
            <Script
              id="adsterra-native"
              src="//pl28147881.effectivegatecpm.com/1105d8e39f67f85e9c9d56c6aea750da/invoke.js"
