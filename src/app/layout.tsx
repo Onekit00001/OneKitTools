@@ -74,41 +74,39 @@ export default function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           
-          <div className="container mx-auto px-4">
-              {/* ===== 728×90 BANNER — CENTERED & VISIBLE ===== */}
-              <div className="w-full flex justify-center my-12 px-4">
-                <Script
-                  id="adsterra-728-config"
-                  strategy="afterInteractive"
-                  dangerouslySetInnerHTML={{
-                    __html: `
-                      var atOptions = {
-                        'key' : 'db600ffd0647e8c85ddc17c87e08e9ca',
-                        'format' : 'iframe',
-                        'height' : 90,
-                        'width' : 728,
-                        'params' : {}
-                      };
-                    `
-                  }}
-                />
-                <Script
-                  id="adsterra-728-invoke"
-                  src="//www.highperformanceformat.com/db600ffd0647e8c85ddc17c87e08e9ca/invoke.js"
-                  strategy="afterInteractive"
-                />
-              </div>
+           {/* ===== 728×90 BANNER — CENTERED & VISIBLE ===== */}
+           <div className="w-full flex justify-center my-12 px-4">
+             <Script
+               id="adsterra-728-config"
+               strategy="afterInteractive"
+               dangerouslySetInnerHTML={{
+                 __html: `
+                   var atOptions = {
+                     'key' : 'db600ffd0647e8c85ddc17c87e08e9ca',
+                     'format' : 'iframe',
+                     'height' : 90,
+                     'width' : 728,
+                     'params' : {}
+                   };
+                 `
+               }}
+             />
+             <Script
+               id="adsterra-728-invoke"
+               src="//www.highperformanceformat.com/db600ffd0647e8c85ddc17c87e08e9ca/invoke.js"
+               strategy="afterInteractive"
+             />
+           </div>
 
-              {/* ===== NATIVE BANNER — FULLY RESPONSIVE ===== */}
-              <Script
-                id="adsterra-native"
-                src="//pl28147881.effectivegatecpm.com/1105d8e39f67f85e9c9d56c6aea750da/invoke.js"
-                strategy="afterInteractive"
-                data-cfasync="false"
-                async
-              />
-              <div id="container-1105d8e39f67f85e9c9d56c6aea750da" className="max-w-4xl mx-auto my-16 px-4 text-center" />
-          </div>
+           {/* ===== NATIVE BANNER — FULLY RESPONSIVE ===== */}
+           <Script
+             id="adsterra-native"
+             src="//pl28147881.effectivegatecpm.com/1105d8e39f67f85e9c9d56c6aea750da/invoke.js"
+             strategy="afterInteractive"
+             data-cfasync="false"
+             async
+           />
+           <div id="container-1105d8e39f67f85e9c9d56c6aea750da" className="max-w-4xl mx-auto my-16 px-4 text-center" />
           
           <Footer />
         </div>
