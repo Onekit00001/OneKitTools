@@ -4,6 +4,7 @@ import { tools } from "@/lib/tools";
 import { ArrowDown } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { AdBanner } from "@/components/ad-banner";
 
 export default function Home() {
   return (

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { ToolRenderer } from '@/components/tool-renderer';
+import { AdBanner } from '@/components/ad-banner';
 import { Separator } from '@/components/ui/separator';
 
 type Props = {
